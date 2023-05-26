@@ -25,10 +25,38 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({
     Key key,
   }) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  TextEditingController controller;
+
+  @override
+  void initState() {
+    controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  IconData snowFlakeIcon = Icons.ac_unit;
+
+  final pokedex = <Pokemon>[
+    const Pokemon("Artikodin", Icons.ac_unit),
+    const Pokemon("Sulfura", Icons.ac_unit),
+    const Pokemon("Electhor", Icons.ac_unit),
+    const Pokemon("Mewtwo", Icons.ac_unit),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +64,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Hola Mundo !"),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Row(
@@ -46,6 +74,7 @@ class HomePage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      controller: controller,
                       decoration: InputDecoration(
                         hintText: "Saisissez un nom !",
                         enabledBorder: OutlineInputBorder(
@@ -65,9 +94,17 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () => print("Pokemon ajouté !"),
-                ),
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      final nameToAdd = controller.text;
+                      if ((nameToAdd.trim()).length > 2) {
+                        pokedex.insert(
+                          0,
+                          Pokemon(nameToAdd, Icons.question_answer_sharp),
+                        );
+                      }
+                      setState(() {});
+                    }),
               ],
             ),
             TheAmazingRow(
@@ -164,12 +201,3 @@ class Pokemon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {}
 }
-
-const IconData snowFlakeIcon = Icons.ac_unit;
-
-final pokedex = const <Pokemon>[
-  Pokemon("Artikodin", snowFlakeIcon),
-  Pokemon("Sulfura", Icons.ac_unit),
-  Pokemon("Electhor", Icons.ac_unit),
-  Pokemon("Mewtwo", Icons.ac_unit),
-];
