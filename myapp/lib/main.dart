@@ -32,6 +32,10 @@ class HomePage extends StatefulWidget {
 
   @override
   _HomePageState createState() => _HomePageState();
+
+  void deleteItem(String name, List pokemonList) {
+    pokemonList.remove(name);
+  }
 }
 
 class _HomePageState extends State<HomePage> {
@@ -51,12 +55,7 @@ class _HomePageState extends State<HomePage> {
 
   IconData snowFlakeIcon = Icons.ac_unit;
 
-  final pokedex = <Pokemon>[
-    const Pokemon("Artikodin", Icons.ac_unit),
-    const Pokemon("Sulfura", Icons.ac_unit),
-    const Pokemon("Electhor", Icons.ac_unit),
-    const Pokemon("Mewtwo", Icons.ac_unit),
-  ];
+  final pokedex = <Pokemon>[];
 
   @override
   Widget build(BuildContext context) {
@@ -96,12 +95,33 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () {
-                      final nameToAdd = controller.text;
+                      const snackBarPresent = SnackBar(
+                          content: Text(
+                              'Le Pokemon est déjà présent dans la liste !'));
+                      const snackBarCourt = SnackBar(
+                          content: Text(
+                              "Le nom du Pokemon doit faire au moins 2 lettres !"));
+
+                      final nameToAdd =
+                          controller.text.toUpperCase().replaceAll(" ", "");
+                      var present = false;
+                      for (var pokemons in pokedex) {
+                        if (nameToAdd.trim() == pokemons.name) present = true;
+                      }
                       if ((nameToAdd.trim()).length > 2) {
-                        pokedex.insert(
-                          0,
-                          Pokemon(nameToAdd, Icons.question_answer_sharp),
-                        );
+                        if ((present == false)) {
+                          pokedex.insert(
+                            0,
+                            Pokemon(nameToAdd, Icons.question_answer_sharp),
+                          );
+                          controller.clear();
+                        } else {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(snackBarPresent);
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(snackBarCourt);
                       }
                       setState(() {});
                     }),
@@ -172,8 +192,9 @@ class TheAmazingRow extends StatelessWidget {
               ),
             ),
             IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () => print("Hallo Welt")),
+              icon: const Icon(Icons.delete),
+              onPressed: () {},
+            ),
           ],
         ),
       ),
