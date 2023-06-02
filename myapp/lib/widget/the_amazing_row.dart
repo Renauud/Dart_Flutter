@@ -45,7 +45,7 @@ class TheAmazingRow extends StatelessWidget {
                 onTap: () => Navigator.pushNamed(
                   context,
                   PageName.detail,
-                  arguments: label,
+                  arguments: {label, icon},
                 ),
                 child: Text(
                   label,
