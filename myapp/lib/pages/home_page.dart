@@ -104,23 +104,23 @@ class _HomePageState extends State<HomePage> {
                     }),
               ],
             ),
-            TheAmazingRow(
-              icon: Icons.wb_sunny,
-              label: "Hello World !",
-            ),
-            TheAmazingRow(
-              icon: Icons.wb_cloudy,
-              label: "Hola desde un mundo lejano !",
-            ),
-            TheAmazingRow(
-              icon: Icons.group_work_rounded,
-              label: "Hailo aus einer fernen Welt !",
-            ),
             for (final Pokemon item in pokedex)
               TheAmazingRow(
                 label: item.getName(),
                 icon: item.getIcon(),
               ),
+            // TheAmazingRow(
+            //   icon: Icons.wb_sunny,
+            //   label: "Hello World !",
+            // ),
+            // TheAmazingRow(
+            //   icon: Icons.wb_cloudy,
+            //   label: "Hola desde un mundo lejano !",
+            // ),
+            // TheAmazingRow(
+            //   icon: Icons.group_work_rounded,
+            //   label: "Hailo aus einer fernen Welt !",
+            // ),
           ],
         ),
       ),
